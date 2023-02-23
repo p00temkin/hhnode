@@ -30,8 +30,14 @@ If you want to wrap the RPC with HTTPS you can use NGINX. Create a config file u
 
 ```
 upstream hhnode {
-    server <yourIP>:8545 max_fails=30 fail_timeout=10s;
+    server <your docker image IP>:8545 max_fails=30 fail_timeout=10s;
 }
+```
+
+You can get the docker image IP-address by running "docker ps" to get the container id, then run
+
+```
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_id
 ```
 
 Next setup your domain SSL certificate. Unless you are already setup with the ssl keys, a good guided option is to use <https://letsencrypt.org/>. Add the following section to your NGINX site config:
@@ -47,7 +53,7 @@ server {
     ...
 ```
 
-Finally add a route to the RPC node using /rpc:
+Finally add a /rpc route to the RPC node in the server section:
 
 ```
     location /rpc {
