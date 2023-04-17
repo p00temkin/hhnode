@@ -71,6 +71,29 @@ Following these steps your Hardhat dev node should be available using "https://y
 
 ![alt text](https://github.com/p00temkin/hhnode/blob/master/img/metamask.png?raw=true)
 
+### Persist state
+
+If you need to persist state the easiest way is to switch to Ganache 7.x and use the "--database.dbPath" option as shown below:
+
+```
+mkdir /var/ganache
+docker run --detach \
+	-v /var/ganache:/var/ganache \
+	--publish 8545:8545 trufflesuite/ganache:v7.8.0 \
+	--mnemonic "test test test test test test test test test test test junk" \
+	--port 8545 \
+	--accounts 10 \
+	--chain.chainId 31337 \
+	--chain.networkId 31337 \
+	--miner.blockTime 1 \
+	--wallet.defaultBalance 100 \
+	--database.dbPath /var/ganache \
+	--server.rpcEndpoint /rpc \
+	-v
+```
+
+To reset the blockchain simply clear the folder /var/ganache. 
+
 ### Support/Donate
 
 To support this project directly:
